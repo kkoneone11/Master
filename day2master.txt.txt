@@ -1,0 +1,150 @@
+## 349.两个数组的交集
+
+1.思路： 将数组排序后，用两个指针分别指向两个数组头部，每次比较两个指针指向的两个数组数字，如果两个数字不相等且小的那个数字右移动，如果相等则用sim来表示有相同且更新sim，当至少一个指针超出范围则结束
+ 2.新的知识
+ (1)qsort (2)if(!a)也就是a等于0的时候成立这种用法
+ 3.问题、原因、解决
+
+- 问题：没有想到是用分别排序运行比大小然后遇到相同再更新参数这种思维
+
+- 原因：题型见的少
+
+- 解决：看参考、用csdn
+
+***
+
+```c
+//用void *则所以类型都可以传进来 
+ int cmp(void* a, void* b) {
+    return *(int*)a - *(int*)b;
+}
+int* intersection(int* nums1, int nums1Size, int* nums2, int nums2Size, int* returnSize){
+qsort(nums1,num1Size,sizeof(int),cmp);
+qsort(nums2,num2Size,sizeof(int),cmp); 
+//void qsort(void* base,size_t num,size_t width,int(__cdecl*compare)(const void*,const void*));
+//要实现的数组；数组大小；各元素占空间大小；自定义想要实现目的的函数
+    *returnSize = 0;
+    int index1 = 0, index2 = 0;
+    int* intersection = malloc(sizeof(int) * (nums1Size + nums2Size));//两数组总和的数组 
+    while (index1 < nums1Size && index2 < nums2Size) {
+        int num1 = nums1[index1], num2 = nums2[index2];
+        if (num1 == num2) {
+            // 保证加入元素的唯一性
+            if (!(*returnSize) || num1 != intersection[(*returnSize) - 1]) {
+                intersection[(*returnSize)++] = num1;
+                //此处相当于returnsize++然后再inersection(*returnsize)所以returnsize有变化 
+            }
+            index1++;
+            index2++;
+        } else if (num1 < num2) {
+            index1++;
+        } else {
+            index2++;
+        }
+    }
+    return intersection;
+}
+
+```
+
+***
+
+
+
+
+
+
+
+
+
+## 88.合并两个有序数组
+
+1.思路:直接在num1中加入num2数组后排序即可 
+2.新的学习点：无
+3.问题、原因、解决
+问题：for循环时候选择了i<=n；以为nums1后面不能再加入元素
+原因：未考虑到是函数算法；
+解决：看了参考答案 
+
+***
+
+
+
+```c
+int cmp(int* a, int* b) {
+    return *a - *b;
+}
+
+void merge(int* nums1, int nums1Size, int m, int* nums2, int nums2Size, int n) {
+	for (int i = 0; i <n; ++i) {
+        nums1[m + i] = nums2[i];
+    }
+    qsort(nums1, nums1Size, sizeof(int), cmp);
+}
+
+int cmp(void *a,void *b)
+{
+	return *(int *)a
+}
+
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+## 234.回文链表
+
+1.思路:因为链表和数组相似，可以先把链表中数据放在数组然后两头各用指针看每次的值是否相同或者最终遇上 
+2.新的学习点：
+
+（1）head更新为下一个的办法（2）同一做法且重复可以用递归
+3.问题、原因、解决
+问题：数组越界：所谓数组越界，就是指数组下标变量的取值超过了初始定义时的大小，导致对[数组元素](https://so.csdn.net/so/search?q=数组元素&spm=1001.2101.3001.7020)的访问出现在数组的范围之外。
+
+原因：没有了解到数组深刻
+
+解决：csdn、问同学 
+
+***
+
+```c
+bool isPalindrome(struct ListNode* head){
+//实现链表交换数组 
+int arr[50001],num =0;
+while(head!=NULL)
+{
+	arr[num++]=head->val;
+	head=head->next; //会指向下一节点的head 
+} 
+ for(int i=0,j=num-1;i<j;++i;--j)
+ {
+ 	if(arr[i]!=arr[j])
+ 	 {
+ 		return false;
+	 }
+ }
+ return true;
+}
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
